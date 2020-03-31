@@ -28,7 +28,7 @@ app.post('/api/login', (req, res) => {
         username: 'muneeb',
         email: 'muneeb@auth.com',
     }
-   jwt.sign({user: user}, 'secret', (err, token) => {
+   jwt.sign({user: user}, 'secret', { expiresIn: '30s' }, (err, token) => {
        res.json({
            token
        });
@@ -40,7 +40,7 @@ function verifyToken(req, res, next) {
     const bearerHeader = req.headers['authorization'];
     if (bearerHeader) {
         const bearerToken = bearerHeader.split(' ')[1];
-        jwt.verify(bearerToken, 'secret', (err, authData) => {
+        jwt.verify(bearerToken, 'secret', { expireIn: '30s' }, (err, authData) => {
             if (err) {
                 res.sendStatus(403);
             } else {
